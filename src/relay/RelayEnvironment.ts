@@ -1,24 +1,41 @@
-import { Environment, Network, RecordSource, Store } from 'relay-runtime';
+import { Environment, Network, RecordSource, Store, FetchFunction } from 'relay-runtime';
 
-async function fetchRelay(params: any, variables: any) {
-  console.log(`fetching query ${params.name} with ${JSON.stringify(variables)}`);
+const HTTP_ENDPOINT = "https://api.github.com/graphql";
+
+const fetchGraphQL: FetchFunction = async (request, variables) => {
+  const token = import.meta.env.VITE_GITHUB_TOKEN;
   
-  const response = await fetch('YOUR_GRAPHQL_ENDPOINT', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      query: params.text,
-      variables,
-    }),
-  });
+  if (!token) {
+    throw new Error('GitHub token is required. Please add VITE_GITHUB_TOKEN to your .env file.');
+  }
 
-  return await response.json();
-}
+  console.log(`Fetching query ${request.name} with variables:`, variables);
+
+  const resp = await fetch(HTTP_ENDPOINT, {
+    method: "POST",
+    headers: { 
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`
+    },
+    body: JSON.stringify({ query: request.text, variables }),
+  });
+  
+  if (!resp.ok) {
+    throw new Error(`GraphQL request failed: ${resp.status} ${resp.statusText}`);
+  }
+  
+  const result = await resp.json();
+  
+  if (result.errors) {
+    console.error('GraphQL errors:', result.errors);
+    throw new Error(`GraphQL errors: ${JSON.stringify(result.errors)}`);
+  }
+  
+  return result;
+};
 
 const environment = new Environment({
-  network: Network.create(fetchRelay),
+  network: Network.create(fetchGraphQL),
   store: new Store(new RecordSource()),
 });
 

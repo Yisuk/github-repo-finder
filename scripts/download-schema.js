@@ -5,7 +5,7 @@ import fs from 'fs';
 import path from 'path';
 import { buildClientSchema, getIntrospectionQuery, printSchema } from 'graphql';
 
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+const GITHUB_TOKEN = process.env.VITE_GITHUB_TOKEN;
 
 if (!GITHUB_TOKEN) {
   console.error('Error: GITHUB_TOKEN environment variable is required');
