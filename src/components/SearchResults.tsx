@@ -93,25 +93,24 @@ function SearchResultsContent({
 
   if (repositories.length === 0) {
     return (
-      <div className="no-results">
+      <div className="text-center py-8 text-gray-600">
         <p>No repositories found for "{query}"</p>
       </div>
     );
   }
 
   return (
-    <div className="search-results">
-      <div className="results-header">
-        <p className="results-count">
+    <div className="w-full">
+      <div className="mb-6 text-center">
+        <p className="text-lg text-gray-600">
           Found {data.search.repositoryCount.toLocaleString()} repositories
         </p>
       </div>
       <div 
         ref={parentRef}
-        className="virtual-list-container"
+        className="border border-gray-300 rounded-lg bg-gray-50 overflow-auto"
         style={{
           height: '600px',
-          overflow: 'auto',
         }}
       >
         <div
@@ -124,15 +123,10 @@ function SearchResultsContent({
           {rowVirtualizer.getVirtualItems().map((virtualItem) => (
             <div
               key={virtualItem.key}
+              className="absolute top-0 left-0 w-full p-2 box-border"
               style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
                 height: `${virtualItem.size}px`,
                 transform: `translateY(${virtualItem.start}px)`,
-                padding: '8px',
-                boxSizing: 'border-box',
               }}
             >
               <RepositoryCard repository={repositories[virtualItem.index]} />
@@ -140,7 +134,7 @@ function SearchResultsContent({
           ))}
         </div>
         {isLoadingNext && (
-          <div className="loading-more">
+          <div className="text-center p-4 text-gray-600 text-sm bg-white bg-opacity-80 border-t border-gray-300 sticky bottom-0">
             <p>Loading more repositories...</p>
           </div>
         )}
@@ -154,15 +148,15 @@ export default function SearchResults({
 }: SearchResultsProps) {
   if (!query) {
     return (
-      <div className="search-placeholder">
-        <p>Enter a search term to find GitHub repositories</p>
+      <div className="text-center py-12 text-gray-600">
+        <p className="text-lg">Enter a search term to find GitHub repositories</p>
       </div>
     );
   }
 
   return (
     <Suspense
-      fallback={<div className="loading">Searching repositories...</div>}
+      fallback={<div className="text-center py-8 text-gray-600 text-lg">Searching repositories...</div>}
     >
       <SearchResultsContent query={query} />
     </Suspense>
