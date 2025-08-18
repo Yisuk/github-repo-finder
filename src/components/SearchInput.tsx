@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface SearchInputProps {
   onSearch: (query: string) => void;
   loading?: boolean;
+  initialQuery?: string;
 }
 
-export default function SearchInput({ onSearch, loading = false }: SearchInputProps) {
-  const [query, setQuery] = useState('');
+export default function SearchInput({ onSearch, loading = false, initialQuery = '' }: SearchInputProps) {
+  const [query, setQuery] = useState(initialQuery);
+
+  useEffect(() => {
+    setQuery(initialQuery);
+  }, [initialQuery]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
