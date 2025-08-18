@@ -13,6 +13,7 @@
     "schema:update": "yarn schema:download && yarn relay"
   },
   "dependencies": {
+    "@tanstack/react-virtual": "^3.13.12",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-relay": "^20.1.1",

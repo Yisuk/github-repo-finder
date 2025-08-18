@@ -208,6 +208,24 @@
   font-weight: 500;
 }
 
+/* Virtual List Styles */
+.virtual-list-container {
+  border: 1px solid #e1e5e9;
+  border-radius: 8px;
+  background: #fafbfc;
+}
+
+.loading-more {
+  text-align: center;
+  padding: 1rem;
+  color: #666;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-top: 1px solid #e1e5e9;
+  position: sticky;
+  bottom: 0;
+}
+
 @media (max-width: 768px) {
   .repositories-grid {
     grid-template-columns: 1fr;

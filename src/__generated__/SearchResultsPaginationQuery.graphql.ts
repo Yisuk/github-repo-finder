@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<84fa55f0ab5faf8b09c614c535a64f59>>
+ * @generated SignedSource<<06395c99eb7949a88e1eb7feaa3c0964>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,36 +10,38 @@
 
 import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type SearchResultsQuery$variables = {
+export type SearchResultsPaginationQuery$variables = {
   after?: string | null | undefined;
-  first: number;
+  first?: number | null | undefined;
   query: string;
 };
-export type SearchResultsQuery$data = {
+export type SearchResultsPaginationQuery$data = {
   readonly " $fragmentSpreads": FragmentRefs<"SearchResultsPaginationFragment">;
 };
-export type SearchResultsQuery = {
-  response: SearchResultsQuery$data;
-  variables: SearchResultsQuery$variables;
+export type SearchResultsPaginationQuery = {
+  response: SearchResultsPaginationQuery$data;
+  variables: SearchResultsPaginationQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
-var v0 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "after"
-},
-v1 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "first"
-},
-v2 = {
-  "defaultValue": null,
-  "kind": "LocalArgument",
-  "name": "query"
-},
-v3 = [
+var v0 = [
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "after"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "first"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "query"
+  }
+],
+v1 = [
   {
     "kind": "Variable",
     "name": "after",
@@ -61,21 +63,21 @@ v3 = [
     "value": "REPOSITORY"
   }
 ],
-v4 = {
+v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "__typename",
   "storageKey": null
 },
-v5 = {
+v3 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v6 = {
+v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
@@ -84,14 +86,10 @@ v6 = {
 };
 return {
   "fragment": {
-    "argumentDefinitions": [
-      (v0/*: any*/),
-      (v1/*: any*/),
-      (v2/*: any*/)
-    ],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "SearchResultsQuery",
+    "name": "SearchResultsPaginationQuery",
     "selections": [
       {
         "args": null,
@@ -104,17 +102,13 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [
-      (v2/*: any*/),
-      (v1/*: any*/),
-      (v0/*: any*/)
-    ],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "SearchResultsQuery",
+    "name": "SearchResultsPaginationQuery",
     "selections": [
       {
         "alias": null,
-        "args": (v3/*: any*/),
+        "args": (v1/*: any*/),
         "concreteType": "SearchResultItemConnection",
         "kind": "LinkedField",
         "name": "search",
@@ -168,12 +162,12 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  (v4/*: any*/),
+                  (v2/*: any*/),
                   {
                     "kind": "InlineFragment",
                     "selections": [
-                      (v5/*: any*/),
-                      (v6/*: any*/),
+                      (v3/*: any*/),
+                      (v4/*: any*/),
                       {
                         "alias": null,
                         "args": null,
@@ -210,7 +204,7 @@ return {
                         "name": "primaryLanguage",
                         "plural": false,
                         "selections": [
-                          (v6/*: any*/),
+                          (v4/*: any*/),
                           {
                             "alias": null,
                             "args": null,
@@ -218,7 +212,7 @@ return {
                             "name": "color",
                             "storageKey": null
                           },
-                          (v5/*: any*/)
+                          (v3/*: any*/)
                         ],
                         "storageKey": null
                       },
@@ -230,7 +224,7 @@ return {
                         "name": "owner",
                         "plural": false,
                         "selections": [
-                          (v4/*: any*/),
+                          (v2/*: any*/),
                           {
                             "alias": null,
                             "args": null,
@@ -245,7 +239,7 @@ return {
                             "name": "avatarUrl",
                             "storageKey": null
                           },
-                          (v5/*: any*/)
+                          (v3/*: any*/)
                         ],
                         "storageKey": null
                       },
@@ -263,7 +257,7 @@ return {
                   {
                     "kind": "InlineFragment",
                     "selections": [
-                      (v5/*: any*/)
+                      (v3/*: any*/)
                     ],
                     "type": "Node",
                     "abstractKey": "__isNode"
@@ -286,7 +280,7 @@ return {
       },
       {
         "alias": null,
-        "args": (v3/*: any*/),
+        "args": (v1/*: any*/),
         "filters": [
           "query",
           "type"
@@ -299,16 +293,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "a44fd72cf2272bab8205be1fba59174d",
+    "cacheID": "27f71454f618cb747b402a322bb05e5c",
     "id": null,
     "metadata": {},
-    "name": "SearchResultsQuery",
+    "name": "SearchResultsPaginationQuery",
     "operationKind": "query",
-    "text": "query SearchResultsQuery(\n  $query: String!\n  $first: Int!\n  $after: String\n) {\n  ...SearchResultsPaginationFragment\n}\n\nfragment RepositoryCardFragment on Repository {\n  id\n  name\n  description\n  url\n  stargazerCount\n  forkCount\n  primaryLanguage {\n    name\n    color\n    id\n  }\n  owner {\n    __typename\n    login\n    avatarUrl\n    id\n  }\n  updatedAt\n}\n\nfragment SearchResultsPaginationFragment on Query {\n  search(query: $query, type: REPOSITORY, first: $first, after: $after) {\n    repositoryCount\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    edges {\n      node {\n        __typename\n        ... on Repository {\n          id\n          ...RepositoryCardFragment\n        }\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n      cursor\n    }\n  }\n}\n"
+    "text": "query SearchResultsPaginationQuery(\n  $after: String\n  $first: Int\n  $query: String!\n) {\n  ...SearchResultsPaginationFragment\n}\n\nfragment RepositoryCardFragment on Repository {\n  id\n  name\n  description\n  url\n  stargazerCount\n  forkCount\n  primaryLanguage {\n    name\n    color\n    id\n  }\n  owner {\n    __typename\n    login\n    avatarUrl\n    id\n  }\n  updatedAt\n}\n\nfragment SearchResultsPaginationFragment on Query {\n  search(query: $query, type: REPOSITORY, first: $first, after: $after) {\n    repositoryCount\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    edges {\n      node {\n        __typename\n        ... on Repository {\n          id\n          ...RepositoryCardFragment\n        }\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n      cursor\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "290fa53f2b02cab7730123de92db55aa";
+(node as any).hash = "d64d350bc51feb7329aaf5d7ef3e971b";
 
 export default node;
