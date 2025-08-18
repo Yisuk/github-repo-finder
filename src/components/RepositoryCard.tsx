@@ -1,6 +1,7 @@
 import { graphql, useFragment } from "react-relay";
-
+import { useBookmarks } from "../contexts/BookmarkContext";
 import type { RepositoryCardFragment$key } from "../__generated__/RepositoryCardFragment.graphql";
+import type { BookmarkedRepository } from "../utils/bookmarks";
 
 export const RepositoryCardFragment = graphql`
   fragment RepositoryCardFragment on Repository {
@@ -28,6 +29,8 @@ interface RepositoryCardProps {
 
 export default function RepositoryCard({ repository }: RepositoryCardProps) {
   const data = useFragment(RepositoryCardFragment, repository);
+  const { addBookmark, removeBookmark, isBookmarked } = useBookmarks();
+  
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
   };
@@ -39,9 +42,36 @@ export default function RepositoryCard({ repository }: RepositoryCardProps) {
     return num.toString();
   };
 
+  const bookmarked = isBookmarked(data.id);
+
+  const handleBookmarkToggle = () => {
+    if (bookmarked) {
+      removeBookmark(data.id);
+    } else {
+      const bookmarkData: BookmarkedRepository = {
+        id: data.id,
+        name: `${data.owner.login}/${data.name}`,
+        url: data.url,
+      };
+      addBookmark(bookmarkData);
+    }
+  };
+
   return (
-    <div className="border border-gray-300 rounded-xl p-6 bg-white transition-shadow duration-300 hover:shadow-lg">
-      <div className="flex justify-between items-start mb-4">
+    <div className="border border-gray-300 rounded-xl p-6 bg-white transition-shadow duration-300 hover:shadow-lg relative">
+      <button
+        onClick={handleBookmarkToggle}
+        className={`absolute top-3 right-3 p-2 rounded-full transition-colors duration-200 ${
+          bookmarked
+            ? "text-yellow-500 hover:text-yellow-600 hover:bg-yellow-50"
+            : "text-gray-400 hover:text-yellow-500 hover:bg-yellow-50"
+        }`}
+        title={bookmarked ? "Remove from bookmarks" : "Add to bookmarks"}
+      >
+        <span className="text-lg">{bookmarked ? "★" : "☆"}</span>
+      </button>
+
+      <div className="flex justify-between items-start mb-4 pr-8">
         <div className="flex-1 min-w-0">
           <h3 className="mb-2 text-xl font-semibold">
             <a

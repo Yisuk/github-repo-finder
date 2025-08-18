@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import SearchInput from "./components/SearchInput";
 import SearchResults from "./components/SearchResults";
+import Sidebar from "./components/Sidebar";
+import { BookmarkProvider } from "./contexts/BookmarkContext";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -39,27 +41,33 @@ function App() {
   };
 
   return (
-    <div className="h-screen bg-gray-50">
-      <div className="max-w-6xl mx-auto p-4">
-        <header className="text-center py-8 border-b border-gray-200 mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
-            GitHub Repository Finder
-          </h1>
-          <p className="text-lg text-gray-600">
-            Search and discover GitHub repositories
-          </p>
-        </header>
+    <BookmarkProvider>
+      <div className="h-screen bg-gray-50 flex">
+        <Sidebar />
 
-        <main className="w-full">
-          <SearchInput
-            onSearch={handleSearch}
-            loading={isSearching}
-            initialQuery={searchQuery}
-          />
-          <SearchResults query={searchQuery} />
-        </main>
+        <div className="flex-1 flex flex-col">
+          <div className="max-w-4xl mx-auto p-4 w-full">
+            <header className="text-center py-8 border-b border-gray-200 mb-8">
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                GitHub Repository Finder
+              </h1>
+              <p className="text-lg text-gray-600">
+                Search and discover GitHub repositories
+              </p>
+            </header>
+
+            <main className="w-full">
+              <SearchInput
+                onSearch={handleSearch}
+                loading={isSearching}
+                initialQuery={searchQuery}
+              />
+              <SearchResults query={searchQuery} />
+            </main>
+          </div>
+        </div>
       </div>
-    </div>
+    </BookmarkProvider>
   );
 }
 
