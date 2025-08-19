@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b7c7d6c6b9e44770eb8a18ff2d03a900>>
+ * @generated SignedSource<<b1b9329e90643eaabfc84aa9c909fa18>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -26,6 +26,7 @@ export type RepositoryCardFragment$data = {
   readonly stargazerCount: number;
   readonly updatedAt: any;
   readonly url: any;
+  readonly viewerHasStarred: boolean;
   readonly " $fragmentType": "RepositoryCardFragment";
 };
 export type RepositoryCardFragment$key = {
@@ -86,6 +87,13 @@ return {
     {
       "alias": null,
       "args": null,
+      "kind": "ScalarField",
+      "name": "viewerHasStarred",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
       "concreteType": "Language",
       "kind": "LinkedField",
       "name": "primaryLanguage",
@@ -140,6 +148,6 @@ return {
 };
 })();
 
-(node as any).hash = "230a82c9836d8584e5ef4d31ba9c87fe";
+(node as any).hash = "10078eef13820c505ca1e39eb260ecfe";
 
 export default node;

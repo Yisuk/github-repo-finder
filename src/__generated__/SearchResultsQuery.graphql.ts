@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<84fa55f0ab5faf8b09c614c535a64f59>>
+ * @generated SignedSource<<9d840df36b87160114a7b65fa4010dc2>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -205,6 +205,13 @@ return {
                       {
                         "alias": null,
                         "args": null,
+                        "kind": "ScalarField",
+                        "name": "viewerHasStarred",
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
                         "concreteType": "Language",
                         "kind": "LinkedField",
                         "name": "primaryLanguage",
@@ -299,12 +306,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "a44fd72cf2272bab8205be1fba59174d",
+    "cacheID": "650355edf617c6c360d31175edec39cc",
     "id": null,
     "metadata": {},
     "name": "SearchResultsQuery",
     "operationKind": "query",
-    "text": "query SearchResultsQuery(\n  $query: String!\n  $first: Int!\n  $after: String\n) {\n  ...SearchResultsPaginationFragment\n}\n\nfragment RepositoryCardFragment on Repository {\n  id\n  name\n  description\n  url\n  stargazerCount\n  forkCount\n  primaryLanguage {\n    name\n    color\n    id\n  }\n  owner {\n    __typename\n    login\n    avatarUrl\n    id\n  }\n  updatedAt\n}\n\nfragment SearchResultsPaginationFragment on Query {\n  search(query: $query, type: REPOSITORY, first: $first, after: $after) {\n    repositoryCount\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    edges {\n      node {\n        __typename\n        ... on Repository {\n          id\n          ...RepositoryCardFragment\n        }\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n      cursor\n    }\n  }\n}\n"
+    "text": "query SearchResultsQuery(\n  $query: String!\n  $first: Int!\n  $after: String\n) {\n  ...SearchResultsPaginationFragment\n}\n\nfragment RepositoryCardFragment on Repository {\n  id\n  name\n  description\n  url\n  stargazerCount\n  forkCount\n  viewerHasStarred\n  primaryLanguage {\n    name\n    color\n    id\n  }\n  owner {\n    __typename\n    login\n    avatarUrl\n    id\n  }\n  updatedAt\n}\n\nfragment SearchResultsPaginationFragment on Query {\n  search(query: $query, type: REPOSITORY, first: $first, after: $after) {\n    repositoryCount\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    edges {\n      node {\n        __typename\n        ... on Repository {\n          id\n          ...RepositoryCardFragment\n        }\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n      cursor\n    }\n  }\n}\n"
   }
 };
 })();
