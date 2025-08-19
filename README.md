@@ -93,9 +93,9 @@ yarn build
 - **Infinite scroll**: 검색 결과를 30개 단위로 조회. Scroll에 따라서 추가 데이터 로딩
 - **Virtualized list**: `@tanstack/react-virtual`를 이용해 performance 최적화
 
-## 구현 과정에서 신경쓴 부분
+## 프로젝트 내 도전 포인트
 
-### GitHub GraphQL API에 따른 Pagination UI 선택
+### GitHub GraphQL API 기반 pagination UI 선택
 
 검색된 repository 숫자가 수만개 이상일 수 있기 때문에 전체 결과를 유저에게 전달하기 위해선 pagination이 필수적으로 구현되어야 합니다. GitHub GraphQL은 connection의 `PageInfo`에서 offset이 아닌 cursor만을 제공하기 때문에 infinite scroll UI를 구현 했습니다.
 
