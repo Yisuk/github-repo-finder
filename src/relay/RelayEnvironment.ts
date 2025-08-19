@@ -3,7 +3,7 @@ import {
   Network,
   RecordSource,
   Store,
-  FetchFunction,
+  type FetchFunction,
 } from "relay-runtime";
 
 const HTTP_ENDPOINT = "https://api.github.com/graphql";
@@ -17,14 +17,12 @@ const fetchGraphQL: FetchFunction = async (request, variables) => {
     );
   }
 
-  console.log(`Fetching query ${request.name} with variables:`, variables);
-
   const resp = await fetch(HTTP_ENDPOINT, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
-      "X-Github-Next-Global-ID": 1,
+      "X-Github-Next-Global-ID": "1",
     },
     body: JSON.stringify({ query: request.text, variables }),
   });
@@ -38,7 +36,6 @@ const fetchGraphQL: FetchFunction = async (request, variables) => {
   const result = await resp.json();
 
   if (result.errors) {
-    console.error("GraphQL errors:", result.errors);
     throw new Error(`GraphQL errors: ${JSON.stringify(result.errors)}`);
   }
 

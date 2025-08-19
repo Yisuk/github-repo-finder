@@ -8,9 +8,7 @@ import RelayEnvironment from "./relay/RelayEnvironment";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RelayEnvironmentProvider environment={RelayEnvironment}>
-      <Suspense fallback="Loading...">
-        <App />
-      </Suspense>
+      <App />
     </RelayEnvironmentProvider>
   </StrictMode>
 );
