@@ -4,7 +4,7 @@ import { useBookmarks } from "../contexts/BookmarkContext";
 export default function Sidebar() {
   const { bookmarks, removeBookmark } = useBookmarks();
   return (
-    <div className="w-80 h-full bg-white border-r border-gray-200 flex flex-col">
+    <div className="w-80 min-h-screen bg-white border-r border-gray-200 flex flex-col">
       <div className="p-4 border-b border-gray-200">
         <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
           <BookmarkIcon className="w-5 h-5" />

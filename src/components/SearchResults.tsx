@@ -44,12 +44,14 @@ type Repository = {
   readonly " $fragmentSpreads": any;
 };
 
+const PAGE_SIZE = 30;
+
 function SearchResultsContent({ query }: SearchResultsProps) {
   const queryData = useLazyLoadQuery<SearchResultsQuery>(
     SearchRepositoriesQuery,
     {
       query,
-      first: 30,
+      first: PAGE_SIZE,
       after: null,
     }
   );
@@ -64,12 +66,6 @@ function SearchResultsContent({ query }: SearchResultsProps) {
   const repositories = (data.search.edges || [])
     .map((edge) => edge?.node)
     .filter((node): node is Repository => node != null && node.id != null);
-
-  const loadMore = useCallback(() => {
-    if (hasNext && !isLoadingNext) {
-      loadNext(30);
-    }
-  }, [hasNext, isLoadingNext, loadNext]);
 
   const rowVirtualizer = useVirtualizer({
     count: repositories.length,
@@ -89,14 +85,14 @@ function SearchResultsContent({ query }: SearchResultsProps) {
       hasNext &&
       !isLoadingNext
     ) {
-      loadMore();
+      loadNext(PAGE_SIZE);
     }
   }, [
     rowVirtualizer.getVirtualItems(),
     repositories.length,
     hasNext,
     isLoadingNext,
-    loadMore,
+    loadNext,
   ]);
 
   if (repositories.length === 0) {
@@ -109,23 +105,17 @@ function SearchResultsContent({ query }: SearchResultsProps) {
 
   return (
     <div className="w-full">
-      <div className="mb-6 text-center">
-        <p className="text-lg text-gray-600">
-          Found {data.search.repositoryCount.toLocaleString()} repositories
-        </p>
-      </div>
+      <p className="mb-4 text-gray-600">
+        Found {data.search.repositoryCount.toLocaleString()} repositories
+      </p>
       <div
         ref={parentRef}
-        className="border border-gray-300 rounded-lg bg-gray-50 overflow-auto"
-        style={{
-          height: "600px",
-        }}
+        className="border border-gray-300 rounded-lg bg-white overflow-auto h-[500px]"
       >
         <div
+          className="w-full relative"
           style={{
             height: `${rowVirtualizer.getTotalSize()}px`,
-            width: "100%",
-            position: "relative",
           }}
         >
           {rowVirtualizer.getVirtualItems().map((virtualItem) => (
@@ -143,7 +133,7 @@ function SearchResultsContent({ query }: SearchResultsProps) {
         </div>
         {isLoadingNext && (
           <div className="text-center p-4 text-gray-600 text-sm bg-white bg-opacity-80 border-t border-gray-300 sticky bottom-0">
-            <p>Loading more repositories...</p>
+            <p>Loading more repositories</p>
           </div>
         )}
       </div>
@@ -166,7 +156,7 @@ export default function SearchResults({ query }: SearchResultsProps) {
     <Suspense
       fallback={
         <div className="text-center py-8 text-gray-600 text-lg">
-          Searching repositories...
+          Searching repositories
         </div>
       }
     >
