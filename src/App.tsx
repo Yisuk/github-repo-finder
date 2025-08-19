@@ -59,7 +59,7 @@ function App() {
                   initialQuery={searchQuery}
                 />
               </div>
-              <SearchResults query={searchQuery} />
+              <SearchResults query={searchQuery} key={searchQuery} />
             </div>
           </div>
         </div>
