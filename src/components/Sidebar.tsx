@@ -1,4 +1,5 @@
 import { useBookmarks } from "../contexts/BookmarkContext";
+import { BookmarkIcon, TrashIcon, ReaderIcon } from "@radix-ui/react-icons";
 
 export default function Sidebar() {
   const { bookmarks, removeBookmark } = useBookmarks();
@@ -6,7 +7,7 @@ export default function Sidebar() {
     <div className="w-80 h-full bg-white border-r border-gray-200 flex flex-col">
       <div className="p-4 border-b border-gray-200">
         <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-          <span className="text-xl">🔖</span>
+          <BookmarkIcon className="w-5 h-5" />
           Bookmarks
         </h2>
         <p className="text-sm text-gray-600 mt-1">
@@ -18,7 +19,9 @@ export default function Sidebar() {
       <div className="flex-1 overflow-y-auto">
         {bookmarks.length === 0 ? (
           <div className="p-4 text-center text-gray-500">
-            <div className="text-4xl mb-2">📚</div>
+            <div className="flex justify-center mb-3">
+              <ReaderIcon className="w-12 h-12" />
+            </div>
             <p className="text-sm">No bookmarks yet</p>
             <p className="text-xs text-gray-400 mt-1">
               Add repositories to your bookmarks from search results
@@ -51,7 +54,7 @@ export default function Sidebar() {
                     className="text-red-500 hover:text-red-700 hover:bg-red-50 p-1 rounded transition-colors duration-200 ml-2"
                     title="Remove bookmark"
                   >
-                    <span className="text-sm">🗑️</span>
+<TrashIcon className="w-4 h-4" />
                   </button>
                 </div>
               </div>

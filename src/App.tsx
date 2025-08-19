@@ -3,6 +3,7 @@ import SearchInput from "./components/SearchInput";
 import SearchResults from "./components/SearchResults";
 import Sidebar from "./components/Sidebar";
 import { BookmarkProvider } from "./contexts/BookmarkContext";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 function App() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -48,7 +49,8 @@ function App() {
         <div className="flex-1 flex flex-col">
           <div className="max-w-4xl mx-auto p-4 w-full">
             <header className="text-center py-8 border-b border-gray-200 mb-8">
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2 flex items-center justify-center gap-3">
+                <GitHubLogoIcon className="w-10 h-10 text-gray-700" />
                 GitHub Repository Finder
               </h1>
               <p className="text-lg text-gray-600">
