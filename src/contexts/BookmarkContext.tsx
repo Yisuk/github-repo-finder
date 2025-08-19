@@ -5,13 +5,23 @@ import {
   useEffect,
   type ReactNode,
 } from "react";
-import {
-  getBookmarks,
-  addBookmark,
-  removeBookmark,
-  isBookmarked,
-  type BookmarkedRepository,
-} from "../utils/bookmarks";
+
+const BOOKMARKS_KEY = "github-repo-bookmarks";
+
+export interface BookmarkedRepository {
+  id: string;
+  name: string;
+  url: string;
+}
+
+const getBookmarks = (): BookmarkedRepository[] => {
+  try {
+    const bookmarks = localStorage.getItem(BOOKMARKS_KEY);
+    return bookmarks ? JSON.parse(bookmarks) : [];
+  } catch (error) {
+    throw new Error(`Error loading bookmarks: ${error}`);
+  }
+};
 
 interface BookmarkContextType {
   bookmarks: BookmarkedRepository[];
@@ -35,25 +45,33 @@ export function BookmarkProvider({ children }: BookmarkProviderProps) {
     setBookmarks(getBookmarks());
   }, []);
 
-  const handleAddBookmark = (repo: BookmarkedRepository) => {
-    const newBookmarks = addBookmark(repo);
+  const addBookmark = (repo: BookmarkedRepository) => {
+    const existingIndex = bookmarks.findIndex((b) => b.id === repo.id);
+
+    if (existingIndex !== -1) {
+      return;
+    }
+
+    const newBookmarks = [...bookmarks, repo];
+    localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(newBookmarks));
     setBookmarks(newBookmarks);
   };
 
-  const handleRemoveBookmark = (repoId: string) => {
-    const newBookmarks = removeBookmark(repoId);
+  const removeBookmark = (repoId: string) => {
+    const newBookmarks = bookmarks.filter((b) => b.id !== repoId);
+    localStorage.setItem(BOOKMARKS_KEY, JSON.stringify(newBookmarks));
     setBookmarks(newBookmarks);
   };
 
-  const checkIsBookmarked = (repoId: string) => {
-    return isBookmarked(repoId);
+  const isBookmarked = (repoId: string): boolean => {
+    return bookmarks.some((b) => b.id === repoId);
   };
 
   const value: BookmarkContextType = {
     bookmarks,
-    addBookmark: handleAddBookmark,
-    removeBookmark: handleRemoveBookmark,
-    isBookmarked: checkIsBookmarked,
+    addBookmark,
+    removeBookmark,
+    isBookmarked,
   };
 
   return (
