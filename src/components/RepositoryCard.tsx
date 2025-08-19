@@ -104,9 +104,6 @@ export default function RepositoryCard({ repository }: RepositoryCardProps) {
       variables: {
         repositoryId: data.id,
       },
-      onCompleted: (response) => {
-        console.log("Star mutation completed:", response);
-      },
       onError: (error) => {
         window.alert("Failed to update star");
         throw new Error(error.message);
