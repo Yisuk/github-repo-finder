@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ef0bd84d9c85bd1dfbf1300506ef979c>>
+ * @generated SignedSource<<6e71d61e7af59b58988e396659c457fa>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -317,7 +317,7 @@ return {
           "type"
         ],
         "handle": "connection",
-        "key": "SearchResults_search",
+        "key": "SearchResultsPaginationFragment_search",
         "kind": "LinkedHandle",
         "name": "search"
       }

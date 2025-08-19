@@ -10,9 +10,9 @@ import {
 import {
   useBookmarks,
   type BookmarkedRepository,
-} from "../contexts/BookmarkContext";
+} from "../../contexts/BookmarkContext";
 
-import type { RepositoryCardFragment$key } from "../__generated__/RepositoryCardFragment.graphql";
+import type { RepositoryCardFragment$key } from "../../__generated__/RepositoryCardFragment.graphql";
 
 export const RepositoryCardFragment = graphql`
   fragment RepositoryCardFragment on Repository {

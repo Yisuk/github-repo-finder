@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b74eee32a7adaf02eb9c7da9cc5cc9e2>>
+ * @generated SignedSource<<7e790844def4e79511aa2ed7f105a094>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -93,7 +93,7 @@ return {
       ],
       "concreteType": "SearchResultItemConnection",
       "kind": "LinkedField",
-      "name": "__SearchResults_search_connection",
+      "name": "__SearchResultsPaginationFragment_search_connection",
       "plural": false,
       "selections": [
         {
@@ -192,6 +192,6 @@ return {
 };
 })();
 
-(node as any).hash = "d64d350bc51feb7329aaf5d7ef3e971b";
+(node as any).hash = "fe7511eea9e9254a23593d7f283cc0d5";
 
 export default node;

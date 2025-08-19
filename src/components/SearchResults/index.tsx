@@ -1,11 +1,11 @@
-import { Suspense, useEffect, useCallback, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 import { graphql } from "react-relay";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import RepositoryCard from "./RepositoryCard";
 
-import type { SearchResultsQuery } from "../__generated__/SearchResultsQuery.graphql";
-import type { SearchResultsPaginationFragment$key } from "../__generated__/SearchResultsPaginationFragment.graphql";
+import type { SearchResultsQuery } from "../../__generated__/SearchResultsQuery.graphql";
+import type { SearchResultsPaginationFragment$key } from "../../__generated__/SearchResultsPaginationFragment.graphql";
 
 const SearchRepositoriesQuery = graphql`
   query SearchResultsQuery($query: String!, $first: Int!, $after: String) {
@@ -17,7 +17,7 @@ const SearchResultsPaginationFragment = graphql`
   fragment SearchResultsPaginationFragment on Query
   @refetchable(queryName: "SearchResultsPaginationQuery") {
     search(query: $query, type: REPOSITORY, first: $first, after: $after)
-      @connection(key: "SearchResults_search") {
+      @connection(key: "SearchResultsPaginationFragment_search") {
       repositoryCount
       pageInfo {
         hasNextPage
@@ -95,15 +95,11 @@ function SearchResultsContent({ query }: SearchResultsProps) {
     loadNext,
   ]);
 
-  if (repositories.length === 0) {
-    return (
-      <div className="text-center py-8 text-gray-600">
-        <p>No repositories found for "{query}"</p>
-      </div>
-    );
-  }
-
-  return (
+  return repositories.length === 0 ? (
+    <div className="text-center py-8 text-gray-600">
+      <p>No repositories found for "{query}"</p>
+    </div>
+  ) : (
     <div className="w-full">
       <p className="mb-4 text-gray-600">
         Found {data.search.repositoryCount.toLocaleString()} repositories

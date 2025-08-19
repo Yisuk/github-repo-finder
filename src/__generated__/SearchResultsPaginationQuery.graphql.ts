@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<64602e70ccd0cd6d687bc81c966adc73>>
+ * @generated SignedSource<<57fa6afe5ab9c01acb99cac0836cdb26>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -311,7 +311,7 @@ return {
           "type"
         ],
         "handle": "connection",
-        "key": "SearchResults_search",
+        "key": "SearchResultsPaginationFragment_search",
         "kind": "LinkedHandle",
         "name": "search"
       }
@@ -328,6 +328,6 @@ return {
 };
 })();
 
-(node as any).hash = "d64d350bc51feb7329aaf5d7ef3e971b";
+(node as any).hash = "fe7511eea9e9254a23593d7f283cc0d5";
 
 export default node;
