@@ -1,6 +1,6 @@
 # GitHub Repository Finder
 
-GitHub GraphQL API를 활용한 Repository 검색 웹 애플리케이션
+[GitHub GraphQL API](https://docs.github.com/en/graphql)를 활용한 Repository 검색 웹 애플리케이션
 
 ## 프로젝트 실행 방법
 
@@ -17,7 +17,7 @@ yarn install
 
 ### 2. GitHub Personal Access Token 설정
 
-1. GitHub에서 Personal Access Token을 생성합니다
+1. GitHub에서 Personal Access Token(classic)을 생성합니다
 2. 프로젝트 루트에 `.env` 파일을 생성하고 다음과 같이 설정합니다:
 
 ```bash
