@@ -71,6 +71,7 @@
 
     - **keyword 기반 검색**: 키워드를 통해 GitHub repository 검색
     - **URL 쿼리 파라미터 지원**: 검색 결과 페이지를 URL로 공유 가능
+    - **GitHub GraphQL schema download**: `yarn schema:download`를 통해 최신 schema 다운로드
 
 - 검색된 repository 정보 제공
 
