@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b1b9329e90643eaabfc84aa9c909fa18>>
+ * @generated SignedSource<<00cde5f2f7115f16ef2bb2af605e8450>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -27,6 +27,9 @@ export type RepositoryCardFragment$data = {
   readonly updatedAt: any;
   readonly url: any;
   readonly viewerHasStarred: boolean;
+  readonly watchers: {
+    readonly totalCount: number;
+  };
   readonly " $fragmentType": "RepositoryCardFragment";
 };
 export type RepositoryCardFragment$key = {
@@ -94,6 +97,24 @@ return {
     {
       "alias": null,
       "args": null,
+      "concreteType": "UserConnection",
+      "kind": "LinkedField",
+      "name": "watchers",
+      "plural": false,
+      "selections": [
+        {
+          "alias": null,
+          "args": null,
+          "kind": "ScalarField",
+          "name": "totalCount",
+          "storageKey": null
+        }
+      ],
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
       "concreteType": "Language",
       "kind": "LinkedField",
       "name": "primaryLanguage",
@@ -148,6 +169,6 @@ return {
 };
 })();
 
-(node as any).hash = "10078eef13820c505ca1e39eb260ecfe";
+(node as any).hash = "aad2ec3134d4583b9ecd573298683666";
 
 export default node;

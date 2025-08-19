@@ -1,7 +1,7 @@
 import { Suspense, useEffect, useCallback, useRef } from "react";
 import { useLazyLoadQuery, usePaginationFragment } from "react-relay";
 import { graphql } from "react-relay";
-import { useVirtualizer } from '@tanstack/react-virtual';
+import { useVirtualizer } from "@tanstack/react-virtual";
 import RepositoryCard from "./RepositoryCard";
 
 import type { SearchResultsQuery } from "../__generated__/SearchResultsQuery.graphql";
@@ -17,7 +17,7 @@ const SearchResultsPaginationFragment = graphql`
   fragment SearchResultsPaginationFragment on Query
   @refetchable(queryName: "SearchResultsPaginationQuery") {
     search(query: $query, type: REPOSITORY, first: $first, after: $after)
-    @connection(key: "SearchResults_search") {
+      @connection(key: "SearchResults_search") {
       repositoryCount
       pageInfo {
         hasNextPage
@@ -44,14 +44,15 @@ type Repository = {
   readonly " $fragmentSpreads": any;
 };
 
-function SearchResultsContent({
-  query,
-}: SearchResultsProps) {
-  const queryData = useLazyLoadQuery<SearchResultsQuery>(SearchRepositoriesQuery, {
-    query,
-    first: 30,
-    after: null,
-  });
+function SearchResultsContent({ query }: SearchResultsProps) {
+  const queryData = useLazyLoadQuery<SearchResultsQuery>(
+    SearchRepositoriesQuery,
+    {
+      query,
+      first: 30,
+      after: null,
+    }
+  );
 
   const { data, loadNext, hasNext, isLoadingNext } = usePaginationFragment<
     SearchResultsQuery,
@@ -61,7 +62,7 @@ function SearchResultsContent({
   const parentRef = useRef<HTMLDivElement>(null);
 
   const repositories = (data.search.edges || [])
-    .map(edge => edge?.node)
+    .map((edge) => edge?.node)
     .filter((node): node is Repository => node != null && node.id != null);
 
   const loadMore = useCallback(() => {
@@ -73,15 +74,16 @@ function SearchResultsContent({
   const rowVirtualizer = useVirtualizer({
     count: repositories.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 200,
+    estimateSize: () => 208,
     overscan: 5,
+    gap: 16,
   });
 
   useEffect(() => {
     const [lastItem] = [...rowVirtualizer.getVirtualItems()].reverse();
-    
+
     if (!lastItem) return;
-    
+
     if (
       lastItem.index >= repositories.length - 1 &&
       hasNext &&
@@ -89,7 +91,13 @@ function SearchResultsContent({
     ) {
       loadMore();
     }
-  }, [rowVirtualizer.getVirtualItems(), repositories.length, hasNext, isLoadingNext, loadMore]);
+  }, [
+    rowVirtualizer.getVirtualItems(),
+    repositories.length,
+    hasNext,
+    isLoadingNext,
+    loadMore,
+  ]);
 
   if (repositories.length === 0) {
     return (
@@ -106,18 +114,18 @@ function SearchResultsContent({
           Found {data.search.repositoryCount.toLocaleString()} repositories
         </p>
       </div>
-      <div 
+      <div
         ref={parentRef}
         className="border border-gray-300 rounded-lg bg-gray-50 overflow-auto"
         style={{
-          height: '600px',
+          height: "600px",
         }}
       >
         <div
           style={{
             height: `${rowVirtualizer.getTotalSize()}px`,
-            width: '100%',
-            position: 'relative',
+            width: "100%",
+            position: "relative",
           }}
         >
           {rowVirtualizer.getVirtualItems().map((virtualItem) => (
@@ -143,20 +151,24 @@ function SearchResultsContent({
   );
 }
 
-export default function SearchResults({
-  query,
-}: SearchResultsProps) {
+export default function SearchResults({ query }: SearchResultsProps) {
   if (!query) {
     return (
       <div className="text-center py-12 text-gray-600">
-        <p className="text-lg">Enter a search term to find GitHub repositories</p>
+        <p className="text-lg">
+          Enter a search term to find GitHub repositories
+        </p>
       </div>
     );
   }
 
   return (
     <Suspense
-      fallback={<div className="text-center py-8 text-gray-600 text-lg">Searching repositories...</div>}
+      fallback={
+        <div className="text-center py-8 text-gray-600 text-lg">
+          Searching repositories...
+        </div>
+      }
     >
       <SearchResultsContent query={query} />
     </Suspense>

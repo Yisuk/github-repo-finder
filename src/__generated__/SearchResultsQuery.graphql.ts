@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9d840df36b87160114a7b65fa4010dc2>>
+ * @generated SignedSource<<ef0bd84d9c85bd1dfbf1300506ef979c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -212,6 +212,24 @@ return {
                       {
                         "alias": null,
                         "args": null,
+                        "concreteType": "UserConnection",
+                        "kind": "LinkedField",
+                        "name": "watchers",
+                        "plural": false,
+                        "selections": [
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "totalCount",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      },
+                      {
+                        "alias": null,
+                        "args": null,
                         "concreteType": "Language",
                         "kind": "LinkedField",
                         "name": "primaryLanguage",
@@ -306,12 +324,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "650355edf617c6c360d31175edec39cc",
+    "cacheID": "4fcaa7f6c6c67dd45243ebf2423189e5",
     "id": null,
     "metadata": {},
     "name": "SearchResultsQuery",
     "operationKind": "query",
-    "text": "query SearchResultsQuery(\n  $query: String!\n  $first: Int!\n  $after: String\n) {\n  ...SearchResultsPaginationFragment\n}\n\nfragment RepositoryCardFragment on Repository {\n  id\n  name\n  description\n  url\n  stargazerCount\n  forkCount\n  viewerHasStarred\n  primaryLanguage {\n    name\n    color\n    id\n  }\n  owner {\n    __typename\n    login\n    avatarUrl\n    id\n  }\n  updatedAt\n}\n\nfragment SearchResultsPaginationFragment on Query {\n  search(query: $query, type: REPOSITORY, first: $first, after: $after) {\n    repositoryCount\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    edges {\n      node {\n        __typename\n        ... on Repository {\n          id\n          ...RepositoryCardFragment\n        }\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n      cursor\n    }\n  }\n}\n"
+    "text": "query SearchResultsQuery(\n  $query: String!\n  $first: Int!\n  $after: String\n) {\n  ...SearchResultsPaginationFragment\n}\n\nfragment RepositoryCardFragment on Repository {\n  id\n  name\n  description\n  url\n  stargazerCount\n  forkCount\n  viewerHasStarred\n  watchers {\n    totalCount\n  }\n  primaryLanguage {\n    name\n    color\n    id\n  }\n  owner {\n    __typename\n    login\n    avatarUrl\n    id\n  }\n  updatedAt\n}\n\nfragment SearchResultsPaginationFragment on Query {\n  search(query: $query, type: REPOSITORY, first: $first, after: $after) {\n    repositoryCount\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    edges {\n      node {\n        __typename\n        ... on Repository {\n          id\n          ...RepositoryCardFragment\n        }\n        ... on Node {\n          __isNode: __typename\n          id\n        }\n      }\n      cursor\n    }\n  }\n}\n"
   }
 };
 })();

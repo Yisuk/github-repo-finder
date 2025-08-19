@@ -1,13 +1,15 @@
 import { graphql, useFragment, useMutation } from "react-relay";
 import { useState } from "react";
-import { useBookmarks } from "../contexts/BookmarkContext";
 import {
   BookmarkIcon,
   BookmarkFilledIcon,
   StarIcon,
   StarFilledIcon,
   Share1Icon,
+  EyeOpenIcon,
 } from "@radix-ui/react-icons";
+import { useBookmarks } from "../contexts/BookmarkContext";
+
 import type { RepositoryCardFragment$key } from "../__generated__/RepositoryCardFragment.graphql";
 import type { BookmarkedRepository } from "../utils/bookmarks";
 
@@ -20,6 +22,9 @@ export const RepositoryCardFragment = graphql`
     stargazerCount
     forkCount
     viewerHasStarred
+    watchers {
+      totalCount
+    }
     primaryLanguage {
       name
       color
@@ -62,12 +67,13 @@ interface RepositoryCardProps {
 
 export default function RepositoryCard({ repository }: RepositoryCardProps) {
   const data = useFragment(RepositoryCardFragment, repository);
+
   const { addBookmark, removeBookmark, isBookmarked } = useBookmarks();
-  const [isStarring, setIsStarring] = useState(false);
+
   const [starError, setStarError] = useState("");
 
-  const [addStar] = useMutation(AddStarMutation);
-  const [removeStar] = useMutation(RemoveStarMutation);
+  const [addStar, isAddingStar] = useMutation(AddStarMutation);
+  const [removeStar, isRemovingStar] = useMutation(RemoveStarMutation);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
@@ -85,18 +91,18 @@ export default function RepositoryCard({ repository }: RepositoryCardProps) {
   const handleBookmarkToggle = () => {
     if (bookmarked) {
       removeBookmark(data.id);
-    } else {
-      const bookmarkData: BookmarkedRepository = {
-        id: data.id,
-        name: `${data.owner.login}/${data.name}`,
-        url: data.url,
-      };
-      addBookmark(bookmarkData);
+      return;
     }
+
+    const bookmarkData: BookmarkedRepository = {
+      id: data.id,
+      name: `${data.owner.login}/${data.name}`,
+      url: data.url,
+    };
+    addBookmark(bookmarkData);
   };
 
   const handleStarToggle = () => {
-    setIsStarring(true);
     setStarError("");
 
     const mutation = data.viewerHasStarred ? removeStar : addStar;
@@ -106,20 +112,17 @@ export default function RepositoryCard({ repository }: RepositoryCardProps) {
         repositoryId: data.id,
       },
       onCompleted: (response) => {
-        setIsStarring(false);
         console.log("Star mutation completed:", response);
       },
       onError: (error) => {
-        setIsStarring(false);
         setStarError(error.message || "Failed to update star");
-        console.error("Star mutation error:", error);
       },
     });
   };
 
   return (
     <>
-      <div className="border border-gray-300 rounded-xl p-6 bg-white transition-shadow duration-300 hover:shadow-lg relative">
+      <div className="border border-gray-300 rounded-xl p-4 bg-white transition-shadow duration-300 hover:shadow-lg relative h-52 flex flex-col justify-between">
         <div className="absolute top-3 right-3">
           <button
             onClick={handleBookmarkToggle}
@@ -151,7 +154,7 @@ export default function RepositoryCard({ repository }: RepositoryCardProps) {
               </a>
             </h3>
             {data.description && (
-              <p className="m-0 text-gray-600 leading-relaxed text-sm">
+              <p className="m-0 text-gray-600 leading-relaxed text-sm line-clamp-3">
                 {data.description}
               </p>
             )}
@@ -164,9 +167,28 @@ export default function RepositoryCard({ repository }: RepositoryCardProps) {
         </div>
 
         <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+          {data.primaryLanguage && (
+            <div className="flex items-center gap-1">
+              <span
+                className="w-3 h-3 rounded-full inline-block"
+                style={{
+                  backgroundColor: data.primaryLanguage.color || "#ccc",
+                }}
+              ></span>
+              <span>{data.primaryLanguage.name}</span>
+            </div>
+          )}
+          <div className="flex items-center gap-1">
+            <EyeOpenIcon className="w-4 h-4" />
+            <span>{formatNumber(data.watchers.totalCount)}</span>
+          </div>
+          <div className="flex items-center gap-1">
+            <Share1Icon className="w-4 h-4" />
+            <span>{formatNumber(data.forkCount)}</span>
+          </div>
           <button
             onClick={handleStarToggle}
-            disabled={isStarring}
+            disabled={isAddingStar || isRemovingStar}
             className={`flex items-center gap-1 px-2 py-1 rounded transition-colors duration-200 ${
               data.viewerHasStarred
                 ? "text-yellow-600 hover:text-yellow-700 hover:bg-yellow-50"
@@ -182,23 +204,7 @@ export default function RepositoryCard({ repository }: RepositoryCardProps) {
               <StarIcon className="w-4 h-4" />
             )}
             <span>{formatNumber(data.stargazerCount)}</span>
-            {isStarring && <span className="text-xs ml-1">...</span>}
           </button>
-          <div className="flex items-center gap-1">
-            <Share1Icon className="w-4 h-4" />
-            <span>{formatNumber(data.forkCount)}</span>
-          </div>
-          {data.primaryLanguage && (
-            <div className="flex items-center gap-1">
-              <span
-                className="w-3 h-3 rounded-full inline-block"
-                style={{
-                  backgroundColor: data.primaryLanguage.color || "#ccc",
-                }}
-              ></span>
-              <span>{data.primaryLanguage.name}</span>
-            </div>
-          )}
           <div className="flex items-center gap-1">
             <span className="font-medium">Updated:</span>
             <span>{formatDate(data.updatedAt)}</span>
